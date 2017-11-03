@@ -4,9 +4,16 @@
   "author": "Aleksandar Diklic <rastasheep3@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start:dev": "NODE_ENV=development ./script/server"
+    "start:dev": "NODE_ENV=development ./script/server",
+    "lint": "eslint -c .eslintrc.json src"
   },
   "dependencies": {
     "pm2": "^2.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0"
   }
 }

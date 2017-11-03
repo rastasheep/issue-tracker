@@ -5,15 +5,18 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "NODE_ENV=development ./script/server",
-    "lint": "eslint -c .eslintrc.json src"
+    "lint": "eslint -c .eslintrc.json src",
+    "test": "NODE_ENV=test mocha --recursive src/test --timeout 5000"
   },
   "dependencies": {
     "pm2": "^2.7.2"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-mocha": "^4.11.0"
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^4.0.1"
   }
 }

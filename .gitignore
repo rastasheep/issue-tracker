@@ -1,0 +1,4 @@
+.DS_Store
+.docker-sync/
+
+node_modules/

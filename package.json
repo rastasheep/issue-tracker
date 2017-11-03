@@ -1,0 +1,12 @@
+{
+  "name": "issue-tracker",
+  "version": "0.0.0",
+  "author": "Aleksandar Diklic <rastasheep3@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "NODE_ENV=development ./script/server"
+  },
+  "dependencies": {
+    "pm2": "^2.7.2"
+  }
+}

@@ -1,0 +1,25 @@
+version: "2"
+services:
+  api:
+    image: node:8-alpine
+    working_dir: /application
+    user: node
+    volumes:
+      - .:/application:cached
+    depends_on:
+      - mongo
+    ports:
+      - 8001:8001
+      - 9229:9229
+    env_file:
+      - .env.api
+    command: "yarn start:dev"
+
+  mongo:
+    image: mvertes/alpine-mongo:3.4.9-0
+    volumes:
+      - mongo-data:/data/db:cached
+
+volumes:
+  mongo-data:
+  upload-data:

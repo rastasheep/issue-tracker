@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test mocha --recursive src/test --timeout 5000"
   },
   "dependencies": {
+    "hapi": "^17.0.0-rc10",
     "pm2": "^2.7.2"
   },
   "devDependencies": {

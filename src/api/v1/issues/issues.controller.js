@@ -1,3 +1,6 @@
+const Issue = require('../../../models/issue');
+const config = require('../../../config');
+
 /**
  * @api {get} /issues Get issues
  * @apiName GetIssues
@@ -15,9 +18,20 @@
  * @apiError (500) {String} message Internal server error
  */
 function index(request, h) {
-  return 'noop';
+  return Issue.paginate({}, {
+    page: Number(request.query.page) || 1,
+    limit: Number(request.query.limit) || config.API_PER_PAGE,
+  })
+    .then(issues => h.response(issues.docs)
+      .code(200)
+      .header('X-Total-Count', issues.total)
+      .header('X-Total-Pages', issues.pages)
+      .header('X-Current-Page', issues.page))
+    .catch((err) => {
+      console.log(err);
+      return h.response({ message: 'Internal server error' }).code(500);
+    });
 }
-
 
 /**
  * @api {get} /issues/:id Get single issue
@@ -37,9 +51,22 @@ function index(request, h) {
  * @apiError (500) {String} message Internal server error
  */
 function get(request, h) {
-  return 'noop';
-}
+  return Issue.findOne({ _id: request.params.issueId })
+    .then((issue) => {
+      if (!issue) {
+        return h.response({ message: 'Not found' }).code(404);
+      }
+      return h.response(issue).code(200);
+    })
+    .catch((err) => {
+      if (err.kind === 'ObjectId' && err.name === 'CastError') {
+        return h.response({ message: 'Not found' }).code(404);
+      }
 
+      console.log(err);
+      return h.response({ message: 'Internal server error' }).code(500);
+    });
+}
 
 /**
  * @api {post} /issues Create issue
@@ -61,11 +88,16 @@ function get(request, h) {
  * @apiError (500) {String} message Internal server error
  */
 function create(request, h) {
-  return 'noop';
+  return Issue.create(request.payload)
+    .then(savedIssue => h.response(savedIssue).code(201))
+    .catch((err) => {
+      console.log(err);
+      return h.response({ message: 'Internal server error' }).code(500);
+    });
 }
 
 /**
- * @api {patch} /issues/:id Update issue
+ * @api {put} /issues/:id Update issue
  * @apiName UpdateIssue
  * @apiGroup Issue
  * @apiDescription Update the issue with given :id
@@ -86,7 +118,21 @@ function create(request, h) {
  * @apiError (500) {String} message Internal server error
  */
 function update(request, h) {
-  return 'noop';
+  return Issue.findByIdAndUpdate(request.params.issueId, request.payload, { new: true })
+    .then((updatedIssue) => {
+      if (!updatedIssue) {
+        return h.response({ message: 'Not found' }).code(404);
+      }
+      return h.response(updatedIssue).code(200);
+    })
+    .catch((err) => {
+      if (err.kind === 'ObjectId' && err.name === 'CastError') {
+        return h.response({ message: 'Not found' }).code(404);
+      }
+
+      console.log(err);
+      return h.response({ message: 'Internal server error' }).code(500);
+    });
 }
 
 /**
@@ -104,7 +150,22 @@ function update(request, h) {
  * @apiError (500) {String} message Internal server error
  */
 function destroy(request, h) {
-  return 'noop';
+  return Issue.findByIdAndRemove(request.params.issueId)
+    .then((removedIssue) => {
+      if (!removedIssue) {
+        return h.response({ message: 'Not found' }).code(404);
+      }
+
+      return h.response({ message: 'Issue removed' }).code(200);
+    })
+    .catch((err) => {
+      if (err.kind === 'ObjectId' && err.name === 'CastError') {
+        return h.response({ message: 'Not found' }).code(404);
+      }
+
+      console.log(err);
+      return h.response({ message: 'Internal server error' }).code(500);
+    });
 }
 
 module.exports = {

@@ -621,7 +621,7 @@ define({ "api": [
     "groupTitle": "Issue"
   },
   {
-    "type": "patch",
+    "type": "put",
     "url": "/issues/:id",
     "title": "Update issue",
     "name": "UpdateIssue",

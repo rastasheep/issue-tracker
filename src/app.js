@@ -35,7 +35,6 @@ server.route([
       directory: {
         path: './src/api/v1/_doc',
         redirectToSlash: true,
-        listing: true,
         index: true,
       },
     },

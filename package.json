@@ -4,20 +4,26 @@
   "author": "Aleksandar Diklic <rastasheep3@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "doc": "rimraf src/api/v1/_doc && apidoc-swagger -i src/api/v1 -o src/api/v1/_doc && apidoc -i src/api/v1 -o src/api/v1/_doc",
+    "prestart:dev": "npm run doc",
     "start:dev": "NODE_ENV=development ./script/server",
     "lint": "eslint -c .eslintrc.json src",
     "test": "NODE_ENV=test mocha --recursive src/test --timeout 5000"
   },
   "dependencies": {
     "hapi": "^17.0.0-rc10",
+    "inert": "^5.0.1",
     "pm2": "^2.7.2"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
+    "apidoc-swagger": "^0.2.2",
     "chai": "^4.1.2",
     "eslint": "^4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-mocha": "^4.11.0",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "rimraf": "^2.6.2"
   }
 }

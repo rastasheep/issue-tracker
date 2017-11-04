@@ -2,3 +2,4 @@
 .docker-sync/
 
 node_modules/
+yarn-error.logg

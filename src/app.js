@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Inert = require('inert');
 
 const commentsV1 = require('./api/v1/comments');
 const filesV1 = require('./api/v1/files');
@@ -13,6 +14,7 @@ const server = new Hapi.Server({
   },
 });
 
+
 server.route([
   ...commentsV1.routes,
   ...filesV1.routes,
@@ -20,6 +22,20 @@ server.route([
 ]);
 
 (async () => {
+  await server.register(Inert);
+  server.route({
+    method: 'GET',
+    path: '/{param*}',
+    handler: {
+      directory: {
+        path: './src/api/v1/_doc',
+        redirectToSlash: true,
+        listing: true,
+        index: true,
+      },
+    },
+  });
+
   await server.start();
   console.log(`Server started at: ${server.info.uri}`);
 })();

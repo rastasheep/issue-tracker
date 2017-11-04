@@ -1,19 +1,24 @@
 const Hapi = require('hapi');
 const Inert = require('inert');
+const Mongoose = require('mongoose');
+const Q = require('q');
 
+const config = require('./config');
 const commentsV1 = require('./api/v1/comments');
 const filesV1 = require('./api/v1/files');
 const issuesV1 = require('./api/v1/issues');
 
+Mongoose.Promise = Q.Promise;
+Mongoose.connect(config.DB_CONNECTION, { useMongoClient: true });
+
 const server = new Hapi.Server({
-  host: process.env.HOST || '0.0.0.0',
-  port: process.env.PORT || 8001,
+  host: config.API_HOST,
+  port: config.API_PORT,
   router: {
     isCaseSensitive: false,
     stripTrailingSlash: true,
   },
 });
-
 
 server.route([
   ...commentsV1.routes,

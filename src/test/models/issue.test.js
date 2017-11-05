@@ -1,8 +1,9 @@
+const mongoose = require('mongoose');
 const { expect } = require('chai');
 
 const Issue = require('../../models/issue');
 
-describe('Model Issue', () => {
+describe('Issue', () => {
   describe('attributes', () => {
     const schemaObj = Issue.schema.obj;
 
@@ -15,6 +16,13 @@ describe('Model Issue', () => {
 
     it('has timestamps enabled', (done) => {
       expect(Issue.schema.options.timestamps).to.be.true;
+
+      done();
+    });
+
+    it('has maby comments', (done) => {
+      expect(schemaObj.comments[0].type).to.equal(mongoose.Schema.Types.ObjectId);
+      expect(schemaObj.comments[0].ref).to.equal('Comment');
 
       done();
     });

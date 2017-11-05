@@ -29,7 +29,7 @@ define({ "api": [
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "issueId",
+            "field": "_issue",
             "description": "<p>Issue id that comment belongs to</p>"
           },
           {
@@ -101,7 +101,7 @@ define({ "api": [
     "title": "Get comments",
     "name": "GetComments",
     "group": "Comment",
-    "description": "<p>Get all comments or the comments for the issue with :issueId id</p>",
+    "description": "<p>Get all comments or the comments for the issue with :_issue id</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -109,7 +109,7 @@ define({ "api": [
             "group": "Parameter",
             "type": "Number",
             "optional": true,
-            "field": "issueId",
+            "field": "_issue",
             "description": "<p>Issue id that comment belongs to</p>"
           },
           {

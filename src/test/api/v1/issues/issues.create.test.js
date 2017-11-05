@@ -34,7 +34,7 @@ describe('#POST /api/v1/issues', () => {
       }));
   });
 
-  describe('timestam set in params', () => {
+  describe('timestamp set in params', () => {
     it('returns error object and status 400', () => request(listener)
       .post('/api/v1/issues')
       .send({ createdAt: '2017-05-08T00:00:00.000Z' })

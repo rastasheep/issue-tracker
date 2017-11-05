@@ -6,6 +6,10 @@ const issueSchema = new mongoose.Schema({
     type: String,
     default: 'pending',
   },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment',
+  }],
 }, {
   timestamps: true,
 });

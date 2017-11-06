@@ -1,6 +1,309 @@
 define({ "api": [
   {
     "type": "post",
+    "url": "/attachments",
+    "title": "Create attachment",
+    "name": "CreateAttachment",
+    "group": "Attachment",
+    "description": "<p>Upload attachment for specifcc issue with :issueId</p>",
+    "header": {
+      "fields": {
+        "Headers": [
+          {
+            "group": "Headers",
+            "type": "String",
+            "allowedValues": [
+              "\"multipart/form-data\""
+            ],
+            "optional": false,
+            "field": "Content-Type",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "File",
+            "optional": false,
+            "field": "file",
+            "description": "<p>Attachment's file</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "issueId",
+            "description": "<p>Issue's uniq ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "Attachment",
+            "description": "<p>'s filename</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "Issue",
+            "description": "<p>'s uniq ID</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "500": [
+          {
+            "group": "500",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Internal server error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/api/v1/attachments/attachments.controller.js",
+    "groupTitle": "Attachment"
+  },
+  {
+    "type": "get",
+    "url": "/files/:filename",
+    "title": "Download file",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "filename",
+            "description": "<p>File's uniq name</p>"
+          }
+        ]
+      }
+    },
+    "name": "DownloadFile",
+    "group": "Attachment",
+    "description": "<p>Get file with filename :filename</p>",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Binary",
+            "optional": false,
+            "field": "File",
+            "description": "<p>contents</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Forbiden</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Not found</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "500": [
+          {
+            "group": "500",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Internal server error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/api/v1/attachments/attachments.controller.js",
+    "groupTitle": "Attachment"
+  },
+  {
+    "type": "get",
+    "url": "/attachments/:id",
+    "title": "Get attachment",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Attachment's unique ID</p>"
+          }
+        ]
+      }
+    },
+    "name": "GetAttachment",
+    "group": "Attachment",
+    "description": "<p>Get attachment with id :id</p>",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "Attachment",
+            "description": "<p>'s filename</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "Issue",
+            "description": "<p>'s uniq ID</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Not found</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "500": [
+          {
+            "group": "500",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Internal server error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/api/v1/attachments/attachments.controller.js",
+    "groupTitle": "Attachment"
+  },
+  {
+    "type": "get",
+    "url": "/attachments",
+    "title": "Get attachments",
+    "name": "GetAttachments",
+    "group": "Attachment",
+    "description": "<p>Get all attachments or the attachments for the issue with :_issue id</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "_issue",
+            "description": "<p>Issue id that comment belongs to</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "page",
+            "defaultValue": "1",
+            "description": "<p>Page of the issues collection</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "limit",
+            "defaultValue": "10",
+            "description": "<p>Documents per page</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Array",
+            "optional": false,
+            "field": "comments",
+            "description": "<p>Array of attachments</p>"
+          }
+        ],
+        "PaginationResponseHeader": [
+          {
+            "group": "PaginationResponseHeader",
+            "type": "String",
+            "optional": false,
+            "field": "x-total-count",
+            "description": "<p>Number of total documents</p>"
+          },
+          {
+            "group": "PaginationResponseHeader",
+            "type": "String",
+            "optional": false,
+            "field": "x-total-pages",
+            "description": "<p>Number of total pages</p>"
+          },
+          {
+            "group": "PaginationResponseHeader",
+            "type": "String",
+            "optional": false,
+            "field": "x-current-page",
+            "description": "<p>Current page</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "500": [
+          {
+            "group": "500",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Internal server error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/api/v1/attachments/attachments.controller.js",
+    "groupTitle": "Attachment"
+  },
+  {
+    "type": "post",
     "url": "/comments",
     "title": "Create comment",
     "name": "CreateComment",
@@ -183,138 +486,6 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "src/api/v1/comments/comments.controller.js",
     "groupTitle": "Comment"
-  },
-  {
-    "type": "get",
-    "url": "/files/:id",
-    "title": "Get file",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>File's unique ID</p>"
-          }
-        ]
-      }
-    },
-    "name": "DownloadFile",
-    "group": "File",
-    "description": "<p>Download file with id :id</p>",
-    "success": {
-      "fields": {
-        "200": [
-          {
-            "group": "200",
-            "type": "Number",
-            "optional": false,
-            "field": "Binary",
-            "description": "<p>file content</p>"
-          }
-        ],
-        "404": [
-          {
-            "group": "404",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Not found</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "500": [
-          {
-            "group": "500",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Internal server error</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "src/api/v1/files/files.controller.js",
-    "groupTitle": "File"
-  },
-  {
-    "type": "post",
-    "url": "/files",
-    "title": "Upload a file for issue",
-    "name": "UploadFile",
-    "group": "File",
-    "description": "<p>Upload files for specificc issue with :issueId and returns array of files ids</p>",
-    "header": {
-      "fields": {
-        "Headers": [
-          {
-            "group": "Headers",
-            "type": "String",
-            "allowedValues": [
-              "\"multipart/form-data\""
-            ],
-            "optional": false,
-            "field": "Content-Type",
-            "description": ""
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "File[]",
-            "optional": false,
-            "field": "files",
-            "description": "<p>Array of uploading files</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "issueId",
-            "description": "<p>Issue's uniq ID</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "200": [
-          {
-            "group": "200",
-            "type": "String[]",
-            "optional": false,
-            "field": "ids",
-            "description": "<p>Array of uploaded files ids</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "500": [
-          {
-            "group": "500",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Internal server error</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "src/api/v1/files/files.controller.js",
-    "groupTitle": "File"
   },
   {
     "type": "post",

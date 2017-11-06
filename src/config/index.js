@@ -10,6 +10,7 @@ const env = envalid.cleanEnv(process.env, {
   API_HOST: envalid.str({ default: '0.0.0.0' }),
   DB_CONNECTION: dbConnection[process.env.NODE_ENV],
   API_PER_PAGE: envalid.num({ default: 10 }),
+  FILE_STORAGE: envalid.str({ default: '/tmp/uploads/' }),
 });
 
 module.exports = env;

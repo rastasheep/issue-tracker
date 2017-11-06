@@ -6,6 +6,7 @@ services:
     user: node
     volumes:
       - .:/application:cached
+      - ./uploads:/tmp/uploads:cached
     depends_on:
       - mongo
     ports:

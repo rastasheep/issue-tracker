@@ -10,6 +10,10 @@ const issueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment',
   }],
+  attachments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Attachment',
+  }],
 }, {
   timestamps: true,
 });

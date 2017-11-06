@@ -5,7 +5,7 @@ const Q = require('q');
 
 const config = require('./config');
 const commentsV1 = require('./api/v1/comments');
-const filesV1 = require('./api/v1/files');
+const attachmentsV1 = require('./api/v1/attachments');
 const issuesV1 = require('./api/v1/issues');
 
 Mongoose.Promise = Q.Promise;
@@ -20,14 +20,16 @@ const server = new Hapi.Server({
   },
 });
 
-server.route([
-  ...commentsV1.routes,
-  ...filesV1.routes,
-  ...issuesV1.routes,
-]);
 
 (async () => {
   await server.register(Inert);
+
+  server.route([
+    ...commentsV1.routes,
+    ...attachmentsV1.routes,
+    ...issuesV1.routes,
+  ]);
+
   server.route({
     method: 'GET',
     path: '/{param*}',

@@ -17,4 +17,4 @@ echo "==> App is now ready to go!"
 date "+%H:%M:%S"
 
 echo "==> Starting app…"
-"$(yarn bin)"/pm2-docker start src/app.js --watch --format
+node src/app.js

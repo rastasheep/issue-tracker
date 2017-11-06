@@ -125,7 +125,7 @@ function create(request, h) {
         case ISSUE_NOT_FOUND:
           return h.response({ message: 'Issue not found' }).code(400);
         case FILE_NOT_FOUND:
-          return h.response({ message: 'File not found' }).code(400);
+          return h.response({ message: 'File not provided' }).code(400);
         default:
           console.log(err);
           return h.response({ message: 'Internal server error' }).code(500);

@@ -19,14 +19,16 @@ describe('#GET /api/v1/issues', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginates issues', () => {
+    it('returns paginates issues', (done) => {
       expect(respBody.length).to.equal(10);
+      done();
     });
 
-    it('returns pagination headers', () => {
+    it('returns pagination headers', (done) => {
       expect(respHeaders['x-total-count']).to.equal('24');
       expect(respHeaders['x-total-pages']).to.equal('3');
       expect(respHeaders['x-current-page']).to.equal('1');
+      done();
     });
   });
 
@@ -43,14 +45,16 @@ describe('#GET /api/v1/issues', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginates issues', () => {
+    it('returns paginates issues', (done) => {
       expect(respBody.length).to.equal(20);
+      done();
     });
 
-    it('returns pagination headers', () => {
+    it('returns pagination headers', (done) => {
       expect(respHeaders['x-total-count']).to.equal('24');
       expect(respHeaders['x-total-pages']).to.equal('2');
       expect(respHeaders['x-current-page']).to.equal('1');
+      done();
     });
   });
 
@@ -67,14 +71,16 @@ describe('#GET /api/v1/issues', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginates issues', () => {
+    it('returns paginates issues', (done) => {
       expect(respBody.length).to.equal(4);
+      done();
     });
 
-    it('returns pagination headers', () => {
+    it('returns pagination headers', (done) => {
       expect(respHeaders['x-total-count']).to.equal('24');
       expect(respHeaders['x-total-pages']).to.equal('3');
       expect(respHeaders['x-current-page']).to.equal('3');
+      done();
     });
   });
 
@@ -91,14 +97,16 @@ describe('#GET /api/v1/issues', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginates issues', () => {
+    it('returns paginates issues', (done) => {
       expect(respBody.length).to.equal(5);
+      done();
     });
 
-    it('returns pagination headers', () => {
+    it('returns pagination headers', (done) => {
       expect(respHeaders['x-total-count']).to.equal('24');
       expect(respHeaders['x-total-pages']).to.equal('5');
       expect(respHeaders['x-current-page']).to.equal('3');
+      done();
     });
   });
 

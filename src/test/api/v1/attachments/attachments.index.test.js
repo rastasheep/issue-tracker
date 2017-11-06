@@ -4,9 +4,9 @@ const Q = require('q');
 
 const Issue = require('../../../../models/issue');
 const { listener } = require('../../../../app');
-const { seedComment } = require('./comments.seed');
+const { seedAttachment } = require('./attachments.seed');
 
-describe('#GET /api/v1/comments', () => {
+describe('#GET /api/v1/attachments', () => {
   let issues;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('#GET /api/v1/comments', () => {
     return Issue.create(issueParams)
       .then((createdIssues) => {
         issues = createdIssues;
-        return Q.all(issues.map(seedComment));
+        return Q.all(issues.map(seedAttachment));
       });
   });
 
@@ -24,14 +24,14 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .expect(200)
       .then(({ headers, body }) => {
         respBody = body;
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(10);
       done();
     });
@@ -49,7 +49,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ limit: 20 })
       .expect(200)
       .then(({ headers, body }) => {
@@ -57,7 +57,7 @@ describe('#GET /api/v1/comments', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(20);
       done();
     });
@@ -75,7 +75,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ page: 3 })
       .expect(200)
       .then(({ headers, body }) => {
@@ -83,7 +83,7 @@ describe('#GET /api/v1/comments', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(4);
       done();
     });
@@ -101,7 +101,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ page: 3, limit: 5 })
       .expect(200)
       .then(({ headers, body }) => {
@@ -109,7 +109,7 @@ describe('#GET /api/v1/comments', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(5);
       done();
     });
@@ -127,7 +127,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ page: 23 })
       .expect(200)
       .then(({ headers, body }) => {
@@ -135,7 +135,7 @@ describe('#GET /api/v1/comments', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(0);
       done();
     });
@@ -153,7 +153,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ _issue: issues[0]._id.toString() })
       .expect(200)
       .then(({ headers, body }) => {
@@ -161,7 +161,7 @@ describe('#GET /api/v1/comments', () => {
         respHeaders = headers;
       }));
 
-    it('returns paginated comments', (done) => {
+    it('returns paginated attachments', (done) => {
       expect(respBody.length).to.equal(1);
       done();
     });
@@ -179,7 +179,7 @@ describe('#GET /api/v1/comments', () => {
     let respHeaders;
 
     beforeEach(() => request(listener)
-      .get('/api/v1/comments')
+      .get('/api/v1/attachments')
       .query({ _issue: 'bbbbb1111ccccc2222aaaaaa' })
       .expect(200)
       .then(({ headers, body }) => {

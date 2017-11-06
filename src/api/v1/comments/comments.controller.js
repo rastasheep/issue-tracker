@@ -5,16 +5,20 @@ const config = require('../../../config');
 const ISSUE_NOT_FOUND = 'Issue not found';
 
 /**
- * @api {get} /comments Get comments
+ * @api {get} /api/v1/comments Get comments
  * @apiName GetComments
  * @apiGroup Comment
  * @apiDescription Get all comments or the comments for the issue with :_issue id
  *
- * @apiParam {Number} [_issue] Issue id that comment belongs to
+ * @apiParam {String} [_issue] Issue id that comment belongs to
  * @apiParam {Number} [page=1] Page of the issues collection
  * @apiParam {Number} [limit=10] Documents per page
  *
- * @apiSuccess (200) {Array} comments Array of comments
+ * @apiSuccess (200) {Object[]} body Array of comments
+ * @apiSuccess (200) {String} body.text Comment text
+ * @apiSuccess (200) {String} body.createdAt Time of creation
+ * @apiSuccess (200) {String} body.updatedAt Time of last update
+ * @apiSuccess (200) {Object} body.issue Issue that belongs to
  * @apiSuccess (PaginationResponseHeader) {String} x-total-count Number of total documents
  * @apiSuccess (PaginationResponseHeader) {String} x-total-pages Number of total pages
  * @apiSuccess (PaginationResponseHeader) {String} x-current-page Current page
@@ -40,19 +44,20 @@ function index(request, h) {
 }
 
 /**
- * @api {post} /comments Create comment
+ * @api {post} /api/v1/comments Create comment
  * @apiName CreateComment
  * @apiGroup Comment
  * @apiDescription Create comment for specified issue
  *
  * @apiHeader (Headers) {String="application/json"} Content-Type
  *
- * @apiParam {Number} _issue Issue id that comment belongs to
+ * @apiParam {String} _issue Issue id that comment belongs to
  * @apiParam {String} text Comment text
  *
  * @apiSuccess (201) {String} text Comment text
  * @apiSuccess (201) {String} createdAt Time of creation
- * @apiSuccess (201) {Object} issue Issue that belongs to
+ * @apiSuccess (201) {String} updatedAt Time of last update
+ * @apiSuccess (201) {Object} _issue Issue that belongs to
  *
  * @apiError (400) {String} message Comment text is too long maximum 250 chars
  * @apiError (400) {String} message Comment text cannot be blank

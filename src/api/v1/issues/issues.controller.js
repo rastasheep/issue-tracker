@@ -10,7 +10,12 @@ const config = require('../../../config');
  * @apiParam {Number} [page=1] Page of the issues collection
  * @apiParam {Number} [limit=10] Documents per page
  *
- * @apiSuccess (200) {Array} Array of issues
+ * @apiSuccess (200) {Object[]} body Array of issues
+ * @apiSuccess (200) {String} body.status Status of the Issue
+ * @apiSuccess (200) {String} body.createdAt Time of creation
+ * @apiSuccess (201) {String} body.updatedAt Time of last update
+ * @apiSuccess (200) {String[]} issues.attachments Issue attachments ids
+ * @apiSuccess (200) {String[]} issues.comments Issue comment ids
  * @apiSuccess (PaginationResponseHeader) {String} x-total-count Number of total documents
  * @apiSuccess (PaginationResponseHeader) {String} x-total-pages Number of total pages
  * @apiSuccess (PaginationResponseHeader) {String} x-current-page Current page
@@ -34,17 +39,18 @@ function index(request, h) {
 }
 
 /**
- * @api {get} /issues/:id Get single issue
+ * @api {get} /api/v1/issues/:id Get ssue
  * @apiName GetIssue
  * @apiGroup Issue
  * @apiDescription Get issue with given :id with all of its files and with comment ids
  *
- * @apiParam {Number} id Issue id that needs to be deleted
+ * @apiParam {String} id Issue id that needs to be deleted
  *
  * @apiSuccess (200) {String} status Status of the Issue
  * @apiSuccess (200) {String} createdAt Time of creation
- * @apiSuccess (200) {Number[]} files Issue file ids
- * @apiSuccess (200) {Number[]} comments Issue comment ids
+ * @apiSuccess (201) {String} updatedAt Time of last update
+ * @apiSuccess (200) {String[]} attachments Issue attachments ids
+ * @apiSuccess (200) {String[]} comments Issue comment ids
  *
  * @apiNotFound (404) {String} message Not found info
  *
@@ -69,7 +75,7 @@ function get(request, h) {
 }
 
 /**
- * @api {post} /issues Create issue
+ * @api {post} /api/v1/issues Create issue
  * @apiName CreateIssue
  * @apiGroup Issue
  * @apiDescription Create issue
@@ -80,8 +86,9 @@ function get(request, h) {
  *
  * @apiSuccess (201) {String} status Status of the Issue
  * @apiSuccess (201) {String} createdAt Time of creation
- * @apiSuccess (201) {Number[]} files Issue file ids
- * @apiSuccess (201) {Number[]} comments Issue comment ids
+ * @apiSuccess (201) {String} updatedAt Time of last update
+ * @apiSuccess (201) {String[]} attachments Issue attachments ids
+ * @apiSuccess (201) {String[]} comments Issue comment ids
  *
  * @apiSuccess (400) {String} message Invalid value for status
  *
@@ -97,21 +104,22 @@ function create(request, h) {
 }
 
 /**
- * @api {put} /issues/:id Update issue
+ * @api {put} /api/v1/issues/:id Update issue
  * @apiName UpdateIssue
  * @apiGroup Issue
  * @apiDescription Update the issue with given :id
  *
  * @apiHeader (Headers) {String="application/json"} Content-Type
  *
- * @apiParam {Number} id Issue id that needs to be deleted
+ * @apiParam {String} id Issue id that needs to be deleted
  *
  * @apiParam {String="pending","complete"} [status="pending"] Issue status
  *
  * @apiSuccess (200) {String} status Status of the Issue
  * @apiSuccess (200) {String} createdAt Time of creation
- * @apiSuccess (200) {Number[]} files Issue file ids
- * @apiSuccess (200) {Number[]} comments Issue comment ids
+ * @apiSuccess (201) {String} updatedAt Time of last update
+ * @apiSuccess (200) {String[]} attachments Issue attachments ids
+ * @apiSuccess (200) {String[]} comments Issue comment ids
  *
  * @apiNotFound (404) {String} message Not found info
  *
@@ -136,12 +144,12 @@ function update(request, h) {
 }
 
 /**
- * @api {delete} /issues/:id Delete issue
+ * @api {delete} /api/v1/issues/:id Delete issue
  * @apiName DeleteIssue
  * @apiGroup Issue
  * @apiDescription Delete the issue with :id
  *
- * @apiParam {Number} id Issue id that needs to be deleted
+ * @apiParam {String} id Issue id that needs to be deleted
  *
  * @apiSuccess (200) {String} message Issue delete successfully info
  *

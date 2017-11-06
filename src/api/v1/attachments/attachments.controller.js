@@ -6,16 +6,19 @@ const ISSUE_NOT_FOUND = 'Issue not found';
 const FILE_NOT_FOUND = 'File contents not found';
 
 /**
- * @api {get} /attachments Get attachments
+ * @api {get} /api/v1/attachments Get attachments
  * @apiName GetAttachments
  * @apiGroup Attachment
  * @apiDescription Get all attachments or the attachments for the issue with :_issue id
  *
- * @apiParam {Number} [_issue] Issue id that comment belongs to
+ * @apiParam {String} [_issue] Issue id that comment belongs to
  * @apiParam {Number} [page=1] Page of the issues collection
  * @apiParam {Number} [limit=10] Documents per page
  *
- * @apiSuccess (200) {Array} comments Array of attachments
+ * @apiSuccess (200) {Object[]} body Array of attachments
+ * @apiSuccess (200) {String} body Attachment's file name
+ * @apiSuccess (200) {String} body Attachment's uniq file id
+ * @apiSuccess (200) {String} body Issue's uniq ID
  * @apiSuccess (PaginationResponseHeader) {String} x-total-count Number of total documents
  * @apiSuccess (PaginationResponseHeader) {String} x-total-pages Number of total pages
  * @apiSuccess (PaginationResponseHeader) {String} x-current-page Current page
@@ -41,14 +44,15 @@ function index(request, h) {
 }
 
 /**
- * @api {get} /attachments/:id Get attachment
+ * @api {get} /api/v1/attachments/:id Get attachment
  * @apiParam {Number} id Attachment's unique ID
  * @apiName GetAttachment
  * @apiGroup Attachment
 
  * @apiDescription Get attachment with id :id
- * @apiSuccess (200) {String} Attachment's filename
- * @apiSuccess (200) {String} Issue's uniq ID
+ * @apiSuccess (200) {String} filename Attachment's file name
+ * @apiSuccess (200) {String} _file Attachment's uniq file id
+ * @apiSuccess (200) {String} _issue Issue's uniq ID
  *
  * @apiSuccess (404) {String} message Not found
  *
@@ -74,7 +78,7 @@ function get(request, h) {
 }
 
 /**
- * @api {post} /attachments Create attachment
+ * @api {post} /api/v1/attachments Create attachment
  * @apiName CreateAttachment
  * @apiGroup Attachment
  * @apiDescription Upload attachment for specifcc issue with :issueId
@@ -82,10 +86,11 @@ function get(request, h) {
  * @apiHeader (Headers) {String="multipart/form-data"} Content-Type
  *
  * @apiParam {File} file Attachment's file
- * @apiParam {Number} issueId Issue's uniq ID
+ * @apiParam {String} _issue Issue's uniq ID
  *
- * @apiSuccess (200) {String} Attachment's filename
- * @apiSuccess (200) {String} Issue's uniq ID
+ * @apiSuccess (200) {String} filename Attachment's filename
+ * @apiSuccess (200) {String} _file Issue's uniq ID
+ * @apiSuccess (200) {String} _issue Issue's uniq ID
  *
  * @apiError (500) {String} message Internal server error
  */
@@ -134,13 +139,13 @@ function create(request, h) {
 }
 
 /**
- * @api {get} /files/:filename Download file
+ * @api {get} /api/v1/files/:filename Download file
  * @apiParam {Number} filename File's uniq name
  * @apiName DownloadFile
  * @apiGroup Attachment
 
  * @apiDescription Get file with filename :filename
- * @apiSuccess (200) {Binary} File contents
+ * @apiSuccess (200) {File} body File contents
  *
  * @apiSuccess (403) {String} message Forbiden
  *

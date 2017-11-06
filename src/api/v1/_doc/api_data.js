@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/attachments",
+    "url": "/api/v1/attachments",
     "title": "Create attachment",
     "name": "CreateAttachment",
     "group": "Attachment",
@@ -34,9 +34,9 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
-            "field": "issueId",
+            "field": "_issue",
             "description": "<p>Issue's uniq ID</p>"
           }
         ]
@@ -49,15 +49,22 @@ define({ "api": [
             "group": "200",
             "type": "String",
             "optional": false,
-            "field": "Attachment",
-            "description": "<p>'s filename</p>"
+            "field": "filename",
+            "description": "<p>Attachment's filename</p>"
           },
           {
             "group": "200",
             "type": "String",
             "optional": false,
-            "field": "Issue",
-            "description": "<p>'s uniq ID</p>"
+            "field": "_file",
+            "description": "<p>Issue's uniq ID</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "_issue",
+            "description": "<p>Issue's uniq ID</p>"
           }
         ]
       }
@@ -81,7 +88,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/files/:filename",
+    "url": "/api/v1/files/:filename",
     "title": "Download file",
     "parameter": {
       "fields": {
@@ -104,10 +111,10 @@ define({ "api": [
         "200": [
           {
             "group": "200",
-            "type": "Binary",
+            "type": "File",
             "optional": false,
-            "field": "File",
-            "description": "<p>contents</p>"
+            "field": "body",
+            "description": "<p>File contents</p>"
           }
         ],
         "403": [
@@ -149,7 +156,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/attachments/:id",
+    "url": "/api/v1/attachments/:id",
     "title": "Get attachment",
     "parameter": {
       "fields": {
@@ -174,15 +181,22 @@ define({ "api": [
             "group": "200",
             "type": "String",
             "optional": false,
-            "field": "Attachment",
-            "description": "<p>'s filename</p>"
+            "field": "filename",
+            "description": "<p>Attachment's file name</p>"
           },
           {
             "group": "200",
             "type": "String",
             "optional": false,
-            "field": "Issue",
-            "description": "<p>'s uniq ID</p>"
+            "field": "_file",
+            "description": "<p>Attachment's uniq file id</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "_issue",
+            "description": "<p>Issue's uniq ID</p>"
           }
         ],
         "404": [
@@ -215,7 +229,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/attachments",
+    "url": "/api/v1/attachments",
     "title": "Get attachments",
     "name": "GetAttachments",
     "group": "Attachment",
@@ -225,7 +239,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": true,
             "field": "_issue",
             "description": "<p>Issue id that comment belongs to</p>"
@@ -254,9 +268,9 @@ define({ "api": [
         "200": [
           {
             "group": "200",
-            "type": "Array",
+            "type": "Object[]",
             "optional": false,
-            "field": "comments",
+            "field": "body",
             "description": "<p>Array of attachments</p>"
           }
         ],
@@ -304,7 +318,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/comments",
+    "url": "/api/v1/comments",
     "title": "Create comment",
     "name": "CreateComment",
     "group": "Comment",
@@ -330,7 +344,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
             "field": "_issue",
             "description": "<p>Issue id that comment belongs to</p>"
@@ -364,9 +378,16 @@ define({ "api": [
           },
           {
             "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "updatedAt",
+            "description": "<p>Time of last update</p>"
+          },
+          {
+            "group": "201",
             "type": "Object",
             "optional": false,
-            "field": "issue",
+            "field": "_issue",
             "description": "<p>Issue that belongs to</p>"
           }
         ]
@@ -400,7 +421,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/comments",
+    "url": "/api/v1/comments",
     "title": "Get comments",
     "name": "GetComments",
     "group": "Comment",
@@ -410,7 +431,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": true,
             "field": "_issue",
             "description": "<p>Issue id that comment belongs to</p>"
@@ -439,10 +460,38 @@ define({ "api": [
         "200": [
           {
             "group": "200",
-            "type": "Array",
+            "type": "Object[]",
             "optional": false,
-            "field": "comments",
+            "field": "body",
             "description": "<p>Array of comments</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "body.text",
+            "description": "<p>Comment text</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "body.createdAt",
+            "description": "<p>Time of creation</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "body.updatedAt",
+            "description": "<p>Time of last update</p>"
+          },
+          {
+            "group": "200",
+            "type": "Object",
+            "optional": false,
+            "field": "body.issue",
+            "description": "<p>Issue that belongs to</p>"
           }
         ],
         "PaginationResponseHeader": [
@@ -489,7 +538,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/issues",
+    "url": "/api/v1/issues",
     "title": "Create issue",
     "name": "CreateIssue",
     "group": "Issue",
@@ -547,14 +596,21 @@ define({ "api": [
           },
           {
             "group": "201",
-            "type": "Number[]",
+            "type": "String",
             "optional": false,
-            "field": "files",
-            "description": "<p>Issue file ids</p>"
+            "field": "updatedAt",
+            "description": "<p>Time of last update</p>"
           },
           {
             "group": "201",
-            "type": "Number[]",
+            "type": "String[]",
+            "optional": false,
+            "field": "attachments",
+            "description": "<p>Issue attachments ids</p>"
+          },
+          {
+            "group": "201",
+            "type": "String[]",
             "optional": false,
             "field": "comments",
             "description": "<p>Issue comment ids</p>"
@@ -590,7 +646,7 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/issues/:id",
+    "url": "/api/v1/issues/:id",
     "title": "Delete issue",
     "name": "DeleteIssue",
     "group": "Issue",
@@ -600,7 +656,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
             "field": "id",
             "description": "<p>Issue id that needs to be deleted</p>"
@@ -640,8 +696,8 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/issues/:id",
-    "title": "Get single issue",
+    "url": "/api/v1/issues/:id",
+    "title": "Get ssue",
     "name": "GetIssue",
     "group": "Issue",
     "description": "<p>Get issue with given :id with all of its files and with comment ids</p>",
@@ -650,7 +706,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
             "field": "id",
             "description": "<p>Issue id that needs to be deleted</p>"
@@ -677,17 +733,26 @@ define({ "api": [
           },
           {
             "group": "200",
-            "type": "Number[]",
+            "type": "String[]",
             "optional": false,
-            "field": "files",
-            "description": "<p>Issue file ids</p>"
+            "field": "attachments",
+            "description": "<p>Issue attachments ids</p>"
           },
           {
             "group": "200",
-            "type": "Number[]",
+            "type": "String[]",
             "optional": false,
             "field": "comments",
             "description": "<p>Issue comment ids</p>"
+          }
+        ],
+        "201": [
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "updatedAt",
+            "description": "<p>Time of last update</p>"
           }
         ]
       }
@@ -743,10 +808,47 @@ define({ "api": [
         "200": [
           {
             "group": "200",
-            "type": "Array",
+            "type": "Object[]",
             "optional": false,
-            "field": "Array",
-            "description": "<p>of issues</p>"
+            "field": "body",
+            "description": "<p>Array of issues</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "body.status",
+            "description": "<p>Status of the Issue</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "body.createdAt",
+            "description": "<p>Time of creation</p>"
+          },
+          {
+            "group": "200",
+            "type": "String[]",
+            "optional": false,
+            "field": "issues.attachments",
+            "description": "<p>Issue attachments ids</p>"
+          },
+          {
+            "group": "200",
+            "type": "String[]",
+            "optional": false,
+            "field": "issues.comments",
+            "description": "<p>Issue comment ids</p>"
+          }
+        ],
+        "201": [
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "body.updatedAt",
+            "description": "<p>Time of last update</p>"
           }
         ],
         "PaginationResponseHeader": [
@@ -793,7 +895,7 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "/issues/:id",
+    "url": "/api/v1/issues/:id",
     "title": "Update issue",
     "name": "UpdateIssue",
     "group": "Issue",
@@ -819,7 +921,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
             "field": "id",
             "description": "<p>Issue id that needs to be deleted</p>"
@@ -858,17 +960,26 @@ define({ "api": [
           },
           {
             "group": "200",
-            "type": "Number[]",
+            "type": "String[]",
             "optional": false,
-            "field": "files",
-            "description": "<p>Issue file ids</p>"
+            "field": "attachments",
+            "description": "<p>Issue attachments ids</p>"
           },
           {
             "group": "200",
-            "type": "Number[]",
+            "type": "String[]",
             "optional": false,
             "field": "comments",
             "description": "<p>Issue comment ids</p>"
+          }
+        ],
+        "201": [
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "updatedAt",
+            "description": "<p>Time of last update</p>"
           }
         ]
       }

@@ -1,8 +1,8 @@
 const envalid = require('envalid');
 
 const dbConnection = {
-  development: envalid.str({ default: 'mongodb://mongo/florenceissue-development' }),
-  test: envalid.str({ default: 'mongodb://mongo/florenceissue-test' }),
+  development: envalid.str({ default: 'mongodb://mongo/issue-tracker-development' }),
+  test: envalid.str({ default: 'mongodb://mongo/issue-tracker-test' }),
 };
 
 const env = envalid.cleanEnv(process.env, {

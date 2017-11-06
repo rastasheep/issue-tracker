@@ -1,4 +1,3 @@
-
 const issuesCtrl = require('./issues.controller');
 const issuesValidator = require('./issues.validator');
 

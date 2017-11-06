@@ -5,7 +5,6 @@ const fileUploader = {
     output: 'file',
     parse: true,
     uploads: config.FILE_STORAGE,
-    // allow: 'multipart/form-data',
   },
 };
 

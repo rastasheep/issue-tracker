@@ -154,6 +154,10 @@ function create(request, h) {
  * @apiError (500) {String} message Internal server error
  */
 
+/**
+ * Handled by hapi directory handler
+ */
+
 module.exports = {
   index,
   get,

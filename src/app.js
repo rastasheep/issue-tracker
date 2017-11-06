@@ -20,7 +20,6 @@ const server = new Hapi.Server({
   },
 });
 
-
 (async () => {
   await server.register(Inert);
 

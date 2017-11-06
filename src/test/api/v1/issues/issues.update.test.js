@@ -21,7 +21,6 @@ describe('#PUT /api/v1/issues/:id', () => {
         expect(body.status).to.equal('finished');
       }));
 
-
     it('doesn\'t allow invalid value for issue status', () => request(listener)
       .put(`/api/v1/issues/${issue._id}`)
       .send({ status: 'maybe' })
